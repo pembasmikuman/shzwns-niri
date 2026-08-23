@@ -1,7 +1,6 @@
 # rice — niri + waybar "dynamic island" dotfiles
 
 Lightweight niri desktop: **~230 MB idle**, wallpaper-driven Material You theming via matugen.
-Ported from `okyashgajjar/low-sepecs-hyprland-dotfiles` (pill / island / dynamic-island waybar layouts) to niri.
 
 ## Stack
 
