@@ -1,114 +1,132 @@
+# ❄️ Low-Spec Niri Rice
+
 <div align="center">
+  <img src="https://img.shields.io/github/stars/okyashgajjar/Low-Spec-Niri-Dotfiles?style=for-the-badge&logo=github&color=b4befe" />
+  <img src="https://img.shields.io/github/last-commit/okyashgajjar/Low-Spec-Niri-Dotfiles?style=for-the-badge&logo=git&color=a6e3a1" />
+  <img src="https://img.shields.io/github/repo-size/okyashgajjar/Low-Spec-Niri-Dotfiles?style=for-the-badge&logo=files&color=f9e2af" />
+  <img src="https://img.shields.io/badge/idle%20RAM-~230%20MB-brightgreen?style=for-the-badge" />
+</div>
 
-# Low-Spec Niri Dotfiles
+<p align="center">
+  <b>A lightweight scrollable-tiling niri configuration optimized for low-end hardware.</b><br>
+  <i>Wallpaper-driven Material You theming — every app recolors itself in under a second.</i>
+</p>
 
-**A ~230 MB idle niri desktop with Material-You theming driven by your wallpaper.**
-
-niri · waybar · matugen · fuzzel · mako · swaybg
-
-![ram](https://img.shields.io/badge/idle%20RAM-~230%20MB-brightgreen)
-![wm](https://img.shields.io/badge/compositor-niri-blue)
-![theming](https://img.shields.io/badge/theming-matugen%20(material--you)-orange)
-
+<div align="center">
+  <a href="#-gallery">Gallery</a> •
+  <a href="#-highlights">Highlights</a> •
+  <a href="#-installation">Installation</a> •
+  <a href="#-keybinds">Keybinds</a> •
+  <a href="#-core-stack">Core Stack</a> •
+  <a href="#-credits--support">Credits</a>
 </div>
 
 ---
 
-## Gallery
+## ✨ Showcase ✨
 
-| Gruvbox mood | Another wallpaper, another palette |
-|---|---|
-| ![gruvbox theme](images/theme_gruvbox.png) | ![another theme](images/another%20theme.png) |
+![Niri Rice Preview](images/theme_gruvbox.png)
 
-| Idle memory | Running on real low-spec hardware |
-|---|---|
-| ![memory](images/memory%20usage.png) | ![specs](images/system_specs.png) |
+### 🖼️ Gallery
+| Gruvbox Mood | Wallpaper-Retinted Theme |
+| :---: | :---: |
+| ![Gruvbox](images/theme_gruvbox.png) | ![Another](images/another%20theme.png) |
 
-> Every wallpaper change re-extracts a full Material You 3 palette and repaints
-> **waybar, fuzzel, mako, alacritty, niri borders and GTK apps** within a second.
+| Real Idle Memory | Low-Spec Hardware |
+| :---: | :---: |
+| ![Memory](images/memory%20usage.png) | ![Specs](images/system_specs.png) |
 
-## The stack
+---
 
-| Role | Component |
-|---|---|
-| Compositor | [niri](https://github.com/YaLTeR/niri) — scrollable tiling |
-| Bar | waybar — **dynamic island** layout (+14 more layouts in `config/waybar/themes/`) |
-| Theming engine | [matugen](https://github.com/InioX/matugen) — wallpaper → Material You 3 scheme |
-| Launcher & menus | fuzzel — wifi / bluetooth / power / control-center scripts |
-| Notifications | mako |
-| Wallpaper | swaybg |
-| Idle | swayidle → screen off after 5 min |
+## 🚀 Highlights
 
-No Xwayland, no accessibility bus, no redundant portals — everything renders native Wayland.
+- 🎨 **Dynamic Theming**: Powered by **Matugen** — changing the wallpaper retints waybar, fuzzel, mako, alacritty, GTK apps and niri borders instantly.
+- 🏝️ **Dynamic Island Waybar**: A single floating pill bar (+14 more layouts bundled: pill, island, mac, retro…), fully ported to niri.
+- 🛠️ **Theme-Aware Menus**: Fuzzel-powered wifi manager, bluetooth manager, power menu and a macOS-style control center.
+- 📦 **Organized Wallpapers**: `rice-classify-wallpapers` sorts your collection into color pools (gruvbox / nord / tokyo…) without moving a single file.
+- ⚡ **Low-Spec Optimized**: **~230 MB idle**, native-Wayland everything (no Xwayland), no accessibility bus, no redundant portals.
 
-## Install
+---
 
+> [!IMPORTANT]
+> **Read this First**
+> This setup targets Arch Linux / EndeavourOS running the **niri session**. Dependencies are checked by `install.sh` — install any missing packages listed.
+
+> [!CAUTION]
+> **Backup your system**
+> Back up your existing `~/.config` before installing. The installer symlinks configs into place; manual safety is recommended.
+
+---
+
+## 📦 Installation
+
+### 🆕 Prerequisites
+- **Compositor**: `niri` session enabled
+- **Core tools**: `waybar swaybg swayidle mako fuzzel matugen cliphist wl-clipboard alacritty brightnessctl playerctl pamixer wlogout swaylock`
+
+### 🚀 Quick Install
 ```bash
-git clone https://github.com/okyashgajjar/Low-Spec-Niri-Dotfiles.git
+git clone --depth=1 https://github.com/okyashgajjar/Low-Spec-Niri-Dotfiles.git
 cd Low-Spec-Niri-Dotfiles
-./install.sh          # links configs, copies rice scripts, checks dependencies
+chmod +x install.sh
+./install.sh
 systemctl --user enable niri.service
 ```
-
 Then relogin into the niri session.
 
-### Wallpapers
-
-The theming follows whatever image you feed it. Point the classifier at your own
-collection (edit `SRC` at the top of the script):
-
+### 🖼️ Your own wallpapers
+Point the classifier at your collection (edit `SRC` inside the script):
 ```bash
-rice-classify-wallpapers    # sorts wallpapers into by-theme/{gruvbox,catppuccin,mono,nord,tokyo}
+rice-classify-wallpapers
 ```
+Wallpapers are never moved or deleted — themed folders are symlink pools only.
 
-Wallpapers are never moved or deleted — themed folders are just symlink pools.
+---
 
-## Keybinds
+## ⌨️ Keybinds
 
-| Keys | Action |
-|---|---|
-| `Mod + Space` | app launcher |
-| `Alt + Space` | run command |
-| `Mod + V` | clipboard history |
-| `Mod + M` / `Ctrl+Alt+Del` | btop task manager |
-| `Super + X` | power menu (lock/logout/suspend/reboot/shutdown) |
-| `Mod + Comma` | macOS-style control center |
-| `Mod + Y` | wallpaper picker |
-| `Mod + Ctrl + T` / `Mod + Ctrl+Shift+T` | cycle theme pool / theme menu |
-| `Mod + Ctrl + W` | next wallpaper (retints the whole desktop) |
-| `Mod + Alt + L` | lock screen |
-| `Mod + O` / `Mod + Tab` | overview |
+| Keybind | Action |
+| :--- | :--- |
+| `SUPER + Return` / `SUPER + T` | Terminal (Alacritty) |
+| `SUPER + Space` | App Launcher (Fuzzel) |
+| `ALT + Space` | Run Command |
+| `SUPER + Q` | Kill Active Window |
+| `SUPER + Comma` | **Control Center** |
+| `SUPER + CTRL + T` | **Cycle Theme Pool** |
+| `SUPER + CTRL + W` | Next Wallpaper (retints desktop) |
+| `SUPER + Y` | Wallpaper Picker |
+| `SUPER + X` | Power Menu |
+| `SUPER + V` | Clipboard History |
+| `SUPER + ALT + L` | Lock Screen |
 
-Full list lives in [`config/niri/config.kdl`](config/niri/config.kdl).
+Full list in [`config/niri/config.kdl`](config/niri/config.kdl).
 
-## Repo layout
+---
 
-```
-├── config/
-│   ├── niri/        compositor config + generated border colors
-│   ├── waybar/      live bar, menus (wifi/bt/power/cc), 15 layouts
-│   ├── matugen/     templates that retint every app from one wallpaper
-│   ├── fuzzel/ mako/ alacritty/ gtk-3.0/ gtk-4.0/
-│   ├── environment.d/   native-wayland env (keeps Xwayland dead)
-│   └── niri-rice/       fallback palettes + wlogout layout
-├── local-bin/       all rice-* helper scripts
-├── install.sh       set up on any machine
-└── sync.sh          pull live tweaks back into this repo
-```
+## 🛠️ Core Stack
+| Component | Program |
+| :--- | :--- |
+| **Window Manager** | `niri` |
+| **Status Bar** | `Waybar` (Dynamic Island) |
+| **Theming** | `Matugen` (Material You from wallpaper) |
+| **Launcher / Menus** | `Fuzzel` |
+| **Notifications** | `Mako` |
+| **Wallpaper** | `swaybg` |
+| **Terminal** | `Alacritty` |
+| **Idle / Lock** | `swayidle` / `swaylock` |
 
-## Workflow
+---
 
-Configs in `$HOME` are the live ones. Tweak anything, then:
+## 📒 Final Notes
+*   **Performance**: Everything renders native Wayland — no Xwayland is ever spawned. Bar modules poll at 4s+ intervals so idle CPU stays near zero.
+*   **Fonts**: The default font is **JetBrainsMono Nerd Font**.
+*   **Updating**: tweak configs live in `$HOME`, then run `./sync.sh && git commit -am "tweak"`.
 
-```bash
-./sync.sh
-git commit -am "tweak"
-git push
-```
+### 🤝 Credits & Support
+- **niri**: For the amazing scrollable tiling compositor.
+- **Matugen**: For the Material You theming engine.
+- **Waybar layouts**: ported from my [low-spec hyprland dotfiles](https://github.com/okyashgajjar/low-sepecs-hyprland-dotfiles).
+- **Support**: A Star 🌟 on this repo would be appreciated!
 
-## Credits
-
-Waybar layouts originally from
-[okyashgajjar/low-sepecs-hyprland-dotfiles](https://github.com/okyashgajjar/low-sepecs-hyprland-dotfiles),
-ported to niri; theming powered by
-[matugen](https://github.com/InioX/matugen).
+---
+*Developed with love for low-spec warriors.*
