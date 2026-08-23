@@ -1,0 +1,10 @@
+/* wallpaper-driven GTK accent (adw-gtk3 reads these) */
+@define-color accent_color #dfc56d;
+@define-color accent_fg_color #3b2f00;
+@define-color accent_bg_color #dfc56d;
+@define-color window_bg_color #1e1b13;
+@define-color window_fg_color #e9e2d4;
+@define-color headerbar_bg_color #221f17;
+@define-color headerbar_fg_color #e9e2d4;
+@define-color popover_bg_color #2d2a21;
+@define-color popover_fg_color #e9e2d4;

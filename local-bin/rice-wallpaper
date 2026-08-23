@@ -1,0 +1,43 @@
+#!/usr/bin/env bash
+# rice-wallpaper — set wallpaper from the active theme's curated folder
+# usage: rice-wallpaper [random|next|pick|boot]
+set -u
+WPDIR_BASE="$HOME/Pictures/_wallpapers/by-theme"
+STATE_DIR="$HOME/.local/state/rice"
+mkdir -p "$STATE_DIR"
+
+theme="$(cat "$STATE_DIR/theme" 2>/dev/null || echo gruvbox)"
+dir="$WPDIR_BASE/$theme"
+[ -d "$dir" ] || dir="$WPDIR_BASE/gruvbox"
+
+mapfile -t walls < <(find "$dir" -type l -o -type f | sort)
+[ ${#walls[@]} -eq 0 ] && { notify-send -u critical "rice" "no wallpapers for $theme"; exit 1; }
+
+idx_file="$STATE_DIR/wp-$theme"
+last=$(cat "$idx_file" 2>/dev/null || echo -1)
+
+pick_next() {
+    local n=$(( (last + 1 + RANDOM) % ${#walls[@]} ))   # semi-random walk, never repeats back-to-back
+    [ "$n" = "$last" ] && n=$(( (n + 1) % ${#walls[@]} ))
+    echo "$n"
+}
+
+case "${1:-random}" in
+    next)  n=$(( (last + 1) % ${#walls[@]} )); echo $n > "$idx_file"; f="${walls[$n]}" ;;
+    pick)
+        sel=$(printf '%s\n' "${walls[@]##*/}" | fuzzel --dmenu --prompt='wallpaper: ' 2>/dev/null)
+        [ -z "$sel" ] && exit 0
+        f="$dir/$sel"
+        for i in "${!walls[@]}"; do [ "${walls[$i]##*/}" = "$sel" ] && echo "$i" > "$idx_file"; done
+        ;;
+    *)     n=$(pick_next); echo "$n" > "$idx_file"; f="${walls[$n]}" ;;
+esac
+
+pkill -x swaybg 2>/dev/null
+sleep 0.1
+setsid nohup swaybg -m fill -i "$f" >/dev/null 2>&1 < /dev/null &
+echo "$f" > "$STATE_DIR/wall"
+
+# wallpaper-driven palette: retint every app (waybar, fuzzel, mako, alacritty,
+# niri borders, gtk) via matugen templates + hooks
+matugen image "$f" --mode dark -t scheme-tonal-spot --prefer lightness >/dev/null 2>&1 || true

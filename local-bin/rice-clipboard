@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+# rice-clipboard — cliphist browser (Mod+V)
+set -u
+sel=$(cliphist list | fuzzel --dmenu --prompt='clipboard: ' 2>/dev/null) || exit 0
+printf '%s' "$sel" | cliphist decode | wl-copy

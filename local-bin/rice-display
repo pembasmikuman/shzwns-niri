@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+# rice-display — toggle outputs via niri (replaces DMS display profiles)
+set -u
+out=$(niri msg --json outputs 2>/dev/null | python3 -c '
+import json,sys
+for name,o in json.load(sys.stdin).items():
+    print(("ON " if o.get("current") else "OFF ") + name)
+' | fuzzel --dmenu --prompt='output: ' 2>/dev/null) || exit 0
+[ -z "$out" ] && exit 0
+name="${out#* }"
+if [[ "$out" == ON* ]]; then
+    niri msg output "$name" off
+else
+    niri msg output "$name" on
+fi

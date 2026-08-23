@@ -1,0 +1,30 @@
+layout {
+    background-color "transparent"
+    focus-ring {
+        off
+    }
+    border {
+        off
+    }
+    shadow {
+        softness 30
+        spread 4
+        offset x=0 y=4
+        color "#00000060"
+    }
+    tab-indicator {
+        active-color   "#dfc56d"
+        inactive-color "#979080"
+        urgent-color   "#ffb4ab"
+    }
+    insert-hint {
+        color "#dfc56d80"
+    }
+}
+recent-windows {
+    highlight {
+        corner-radius 10
+        active-color  "#38342b"
+        urgent-color  "#ffb4ab"
+    }
+}

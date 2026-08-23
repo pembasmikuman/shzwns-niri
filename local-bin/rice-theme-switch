@@ -1,0 +1,49 @@
+#!/usr/bin/env bash
+# rice-theme-switch — apply one of 5 palettes across waybar/fuzzel/mako/alacritty/niri
+set -u
+RICE="$HOME/.config/niri-rice"
+STATE_DIR="$HOME/.local/state/rice"
+THEMES=(gruvbox catppuccin mono nord tokyo)
+PRETTY=(Gruvbox Catppuccin Monochrome Nord TokyoNight)
+
+mkdir -p "$RICE/waybar" "$STATE_DIR"
+
+cur="$(cat "$STATE_DIR/theme" 2>/dev/null || echo gruvbox)"
+
+case "${1:-menu}" in
+  menu)
+    sel=$(printf '%s\n' "${PRETTY[@]}" | fuzzel --dmenu --prompt='theme: ' 2>/dev/null)
+    [ -z "$sel" ] && exit 0
+    for i in "${!PRETTY[@]}"; do [ "${PRETTY[$i]}" = "$sel" ] && name="${THEMES[$i]}"; done
+    ;;
+  next|cycle)
+    idx=0
+    for i in "${!THEMES[@]}"; do [ "${THEMES[$i]}" = "$cur" ] && idx=$i; done
+    idx=$(( (idx + 1) % ${#THEMES[@]} ))
+    name="${THEMES[$idx]}"
+    ;;
+  "") exit 0 ;;
+  *) name="$1" ;;
+esac
+
+CONF="$RICE/themes/$name.conf"
+[ -f "$CONF" ] || { notify-send -u critical "rice" "unknown theme: $name"; exit 1; }
+# shellcheck disable=SC1090
+source "$CONF"
+
+# normalize palette to bare hex (no leading '#') so templates control hashes
+strip_hash() { printf '%s' "${1#\#}"; }
+BG=$(strip_hash "$BG");         SURFACE=$(strip_hash "$SURFACE")
+SURFACE2=$(strip_hash "$SURFACE2"); TEXT=$(strip_hash "$TEXT")
+DIM=$(strip_hash "$DIM");       ACCENT=$(strip_hash "$ACCENT")
+ACCENT2=$(strip_hash "$ACCENT2"); RED=$(strip_hash "$RED")
+GREEN=$(strip_hash "$GREEN");   BORDER=$(strip_hash "$BORDER")
+
+echo "$name" > "$STATE_DIR/theme"
+echo "$LABEL" > "$STATE_DIR/label"
+ln -sf "$CONF" "$RICE/active.conf"
+
+# ---------- wallpaper drives the palette now (matugen) ----------
+"$HOME/.local/bin/rice-wallpaper" random &
+
+notify-send -a rice -t 1500 "Theme applied" "$(tr '[:lower:]' '[:upper:]' <<<"${name:0:1}")${name:1} — colors follow the wallpaper"

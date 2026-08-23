@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+# rice-taskmgr — floating btop
+exec alacritty --class rice.btop -e btop

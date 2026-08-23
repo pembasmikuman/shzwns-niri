@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+# rice-bt — toggle bluetooth power + optionally scan/connect menu (right side)
+set -u
+st=$(bluetoothctl show 2>/dev/null | awk '/Powered:/ {print $2}')
+case "${1:-toggle}" in
+    toggle)
+        case "$st" in
+            yes) bluetoothctl power off >/dev/null 2>&1 && notify-send -a rice -i bluetooth-disabled "Bluetooth" "off" ;;
+            *)   bluetoothctl power on  >/dev/null 2>&1 && notify-send -a rice -i bluetooth "Bluetooth" "on" ;;
+        esac
+        ;;
+    menu)
+        exec bluetoothctl devices 2>/dev/null | fuzzel --dmenu --prompt='bt device: ' >/dev/null
+        ;;
+esac

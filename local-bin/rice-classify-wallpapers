@@ -1,0 +1,93 @@
+#!/usr/bin/env python3
+"""rice-classify-wallpapers — sort wallpapers into theme folders via color analysis.
+
+Creates ~/Pictures/Wallpapers/by-theme/<theme>/ full of RELATIVE SYMLINKS to the
+originals. Nothing is moved or deleted; re-running refreshes the links.
+"""
+import colorsys
+import os
+import sys
+from pathlib import Path
+
+from PIL import Image
+
+SRC = Path.home() / "Pictures" / "_wallpapers"
+OUT = SRC / "by-theme"
+SKIP_DIRS = {"by-theme"}
+EXTS = {".jpg", ".jpeg", ".png", ".webp", ".bmp", ".gif"}
+
+# representative (dark-base, accent) per theme in HSV
+THEMES = {
+    "gruvbox":    [(0.08, 0.16, 0.18), (0.12, 0.55, 0.72)],   # warm brown / gold
+    "catppuccin": [(0.78, 0.30, 0.15), (0.77, 0.35, 0.80)],   # dark lavender / mauve
+    "mono":       [(0.00, 0.00, 0.05), (0.00, 0.00, 0.95)],   # black / white
+    "nord":       [(0.59, 0.22, 0.23), (0.52, 0.38, 0.75)],   # slate blue / frost
+    "tokyo":      [(0.68, 0.40, 0.10), (0.74, 0.42, 0.70)],   # deep indigo / violet
+}
+
+
+def thumb_avg(path: Path):
+    try:
+        im = Image.open(path)
+        im = im.convert("RGB").resize((48, 48))
+        px = list(im.getdata())
+        r = sum(p[0] for p in px) // len(px)
+        g = sum(p[1] for p in px) // len(px)
+        b = sum(p[2] for p in px) // len(px)
+        return (r / 255, g / 255, b / 255)
+    except Exception:
+        return None
+
+
+def hsv(rgb):
+    return colorsys.rgb_to_hsv(*rgb)
+
+
+def dist(a, b):
+    # circular hue distance + weighted s,v
+    dh = min(abs(a[0] - b[0]), 1 - abs(a[0] - b[0])) * 2
+    ds = a[1] - b[1]
+    dv = a[2] - b[2]
+    return (dh * 1.2) ** 2 + ds * ds + dv * dv
+
+
+def classify(rgb):
+    h_, s, v = hsv(rgb)
+    if s < 0.09:                       # greyscale
+        return "mono"
+    best, score = None, 1e9
+    for name, (base, accent) in THEMES.items():
+        d_base = dist((h_, s, v), base)
+        d_acc = dist((h_, s, v), accent)
+        sc = min(d_base, 0.65 * d_base + 0.35 * d_acc)
+        if sc < score:
+            best, score = name, sc
+    return best
+
+
+def main():
+    files = [p for p in SRC.iterdir()
+             if p.is_file() and p.suffix.lower() in EXTS]
+    print(f"classifying {len(files)} wallpapers ...")
+    counts = {k: 0 for k in THEMES}
+    for t in THEMES:
+        (OUT / t).mkdir(parents=True, exist_ok=True)
+        # clear stale links only
+        for old in (OUT / t).glob("*"):
+            old.unlink()
+    for i, p in enumerate(files, 1):
+        rgb = thumb_avg(p)
+        t = classify(rgb) if rgb else "mono"
+        link = OUT / t / p.name
+        if not link.exists():
+            link.symlink_to(os.path.relpath(p, link.parent))
+        counts[t] += 1
+        if i % 100 == 0:
+            print(f"  {i}/{len(files)}")
+    for t, c in counts.items():
+        print(f"  {t:<11} {c}")
+    print("done ->", OUT)
+
+
+if __name__ == "__main__":
+    sys.exit(main())

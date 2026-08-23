@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+# rice-float-center — float focused window and center it
+niri msg action toggle-window-floating
+sleep 0.05
+niri msg action center-column

@@ -1,0 +1,16 @@
+{
+    "label": {
+        "lock": "Lock",
+        "logout": "Logout",
+        "suspend": "Suspend",
+        "hibernate": "Hibernate",
+        "shutdown": "Shutdown",
+        "reboot": "Reboot"
+    },
+    "lock": { "text": "Lock", "keybind": "l" },
+    "logout": { "text": "Logout", "keybind": "e" },
+    "suspend": { "text": "Suspend", "keybind": "u" },
+    "hibernate": { "text": "Hibernate", "keybind": "h" },
+    "shutdown": { "text": "Shutdown", "keybind": "s" },
+    "reboot": { "text": "Reboot", "keybind": "r" }
+}

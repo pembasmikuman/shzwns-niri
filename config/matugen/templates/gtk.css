@@ -1,0 +1,10 @@
+/* wallpaper-driven GTK accent (adw-gtk3 reads these) */
+@define-color accent_color {{colors.primary.default.hex}};
+@define-color accent_fg_color {{colors.on_primary.default.hex}};
+@define-color accent_bg_color {{colors.primary.default.hex}};
+@define-color window_bg_color {{colors.surface_container_low.default.hex}};
+@define-color window_fg_color {{colors.on_surface.default.hex}};
+@define-color headerbar_bg_color {{colors.surface_container.default.hex}};
+@define-color headerbar_fg_color {{colors.on_surface.default.hex}};
+@define-color popover_bg_color {{colors.surface_container_high.default.hex}};
+@define-color popover_fg_color {{colors.on_surface.default.hex}};

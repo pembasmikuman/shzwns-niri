@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+# rice-lock — themed swaylock
+set -u
+CONF="$HOME/.config/niri-rice/active.conf"
+[ -f "$CONF" ] || CONF="$HOME/.config/niri-rice/themes/gruvbox.conf"
+# shellcheck disable=SC1090
+source "$CONF"
+WALL="$(cat "$HOME/.local/state/rice/wall" 2>/dev/null)"
+ARGS=(-s --inside-color "${SURFACE}00" --ring-color "${ACCENT}" --key-hl-color "${ACCENT2}"
+      --line-uses-ring --separator-color "00000000"
+      --text-color "${TEXT}" --text-clear-color "${TEXT}"
+      --ring-ver-color "${ACCENT2}" --inside-ver-color "${SURFACE}cc"
+      --ring-wrong-color "${RED}" --inside-wrong-color "${SURFACE}cc"
+      --font "Noto Sans" --indicator-radius 90 --indicator-thickness 8)
+[ -f "$WALL" ] && ARGS+=(-i "$WALL" --scaling fill)
+exec swaylock "${ARGS[@]}"

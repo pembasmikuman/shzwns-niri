@@ -1,0 +1,121 @@
+// ──────────────────────────────────────────────
+//   Waybar — DYNAMIC ISLAND (niri port)
+//   origin: okyashgajjar/low-sepecs-hyprland-dotfiles
+// ──────────────────────────────────────────────
+{
+    "layer": "top",
+    "position": "top",
+    "mode": "dock",
+    "exclusive": true,
+    "passthrough": false,
+    "height": 34,
+    "margin-top": 6,
+    "margin-bottom": 2,
+
+    "modules-left": [],
+    "modules-center": [
+        "clock",
+        "niri/workspaces",
+        "custom/updates",
+        "bluetooth",
+        "pulseaudio",
+        "network",
+        "battery",
+        "custom/theme",
+        "custom/wall",
+        "custom/power"
+    ],
+    "modules-right": [],
+
+    "niri/workspaces": {
+        "format": "{name}",
+        "on-click": "activate"
+    },
+
+    "clock": {
+        "format": "{:%d %b - %H:%M}",
+        "tooltip-format": "<tt><small>{calendar}</small></tt>",
+        "calendar": {
+            "mode": "month"
+        }
+    },
+
+    "pulseaudio": {
+        "format": "{icon}",
+        "format-muted": "󰖁",
+        "format-icons": {
+            "default": ["󰕿", "󰖀", "󰕾"]
+        },
+        "on-click": "pavucontrol",
+        "on-scroll-up": "wpctl set-volume @DEFAULT_AUDIO_SINK@ 2%+",
+        "on-scroll-down": "wpctl set-volume @DEFAULT_AUDIO_SINK@ 2%-",
+        "tooltip-format": "vol {volume}%"
+    },
+
+    "bluetooth": {
+        "format": "󰂯",
+        "format-disabled": "󰂲",
+        "format-off": "󰂲",
+        "format-connected": "󰂯{num_connections}",
+        "tooltip-format": "{controller_alias}\n{num_connections} connected",
+        "tooltip-format-connected": "{device_enumerate}",
+        "on-click": "~/.config/waybar/scripts/bluetooth-menu.sh",
+        "on-click-right": "bluetoothctl show | grep -q 'Powered: yes' && bluetoothctl power off || bluetoothctl power on"
+    },
+
+    "network": {
+        "interval": 10,
+        "format-wifi": "󰤨",
+        "format-ethernet": "󰈀",
+        "format-disconnected": "󰤭",
+        "tooltip-format-wifi": "󰤨  {essid}\n󱑽  {signalStrength}%\n󰩟  {ipaddr}/{cidr}",
+        "tooltip-format-disconnected": "No connection — click to open menu",
+        "on-click": "~/.config/waybar/scripts/wifi-menu.sh",
+        "on-click-right": "nmcli radio wifi | grep -q enabled && nmcli radio wifi off || nmcli radio wifi on"
+    },
+
+    "battery": {
+        "bat": "BAT0",
+        "adapter": "ADP0",
+        "interval": 60,
+        "states": {
+            "good": 80,
+            "warning": 30,
+            "critical": 15
+        },
+        "format": "{icon}",
+        "format-charging": "󰂄",
+        "format-plugged": "󰂄",
+        "format-icons": ["󰂎", "󰁺", "󰁻", "󰁼", "󰁽", "󰁾", "󰁿", "󰂀", "󰂁", "󰂂", "󰁹"],
+        "tooltip-format": "{capacity}%"
+    },
+
+    "custom/updates": {
+        "format": "󰚰 {}",
+        "escape": true,
+        "return-type": "json",
+        "exec": "~/.config/waybar/scripts/updates.sh",
+        "interval": 3600,
+        "on-click": "kitty -e yay -Syu; pkill -RTMIN+8 waybar",
+        "signal": 8
+    },
+
+    "custom/power": {
+        "format": "⏻",
+        "on-click": "~/.config/waybar/scripts/power-menu.sh",
+        "tooltip": false
+    },
+
+    "custom/theme": {
+        "format": "󰏘",
+        "tooltip": "theme: click = cycle, right-click = picker",
+        "on-click": "rice-theme-switch next",
+        "on-click-right": "rice-theme-switch menu"
+    },
+    "custom/wall": {
+        "format": "󰋎",
+        "tooltip": "wallpaper: click next, right-click pick",
+        "on-click": "rice-wallpaper next",
+        "on-click-right": "rice-wallpaper pick"
+    }
+}

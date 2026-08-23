@@ -1,0 +1,14 @@
+font=Noto Sans 11
+background-color=#2d2a21
+text-color=#e9e2d4
+border-color=#dfc56d
+border-size=2
+border-radius=10
+padding=12
+margin=14
+default-timeout=6000
+icon-location=left
+max-visible=4
+
+[mode=dnd]
+invisible=1

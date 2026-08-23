@@ -1,0 +1,110 @@
+/* ──────────────────────────────────────────────
+ *   Waybar – DYNAMIC ISLAND (niri port)
+ *   fully theme-adaptive via colors.css
+ * ────────────────────────────────────────────── */
+@import "colors.css";
+
+* {
+    border: none;
+    border-radius: 0;
+    font-family: "JetBrainsMono Nerd Font", "Roboto", sans-serif;
+    font-size: 13px;
+    font-weight: bold;
+    min-height: 0;
+}
+
+window#waybar {
+    background: transparent;
+}
+
+/* The actual "Island" pill */
+.modules-center {
+    background: @surface_variant;
+    color: @on_surface;
+    border: 1px solid @outline;
+    border-radius: 20px;
+    padding: 0 12px;
+}
+
+/* ── even spacing between every icon ── */
+#clock,
+#pulseaudio,
+#bluetooth,
+#network,
+#battery,
+#custom-updates,
+#custom-theme,
+#custom-wall,
+#custom-power {
+    padding: 0 8px;
+    margin: 4px 1px;
+    color: @on_surface;
+}
+
+#workspaces {
+    background: transparent;
+    padding: 0 4px;
+    margin: 4px 1px;
+}
+
+#workspaces button {
+    padding: 0px 6px;
+    color: alpha(@on_surface_variant, 0.55);
+    background: transparent;
+    transition: all 0.3s ease;
+}
+
+#workspaces button.active,
+#workspaces button.focused {
+    color: @on_primary;
+    background: @primary;
+    border-radius: 12px;
+    margin: 2px 2px;
+}
+
+#workspaces button.urgent {
+    color: @on_error;
+    background: @error;
+    border-radius: 12px;
+}
+
+#clock {
+    color: @secondary;
+}
+
+#custom-updates {
+    color: @secondary;
+}
+
+#custom-theme { color: @primary; }
+#custom-wall { color: alpha(@on_surface_variant, 0.85); }
+
+#custom-power {
+    color: @error;
+}
+
+#battery.charging,
+#battery.plugged {
+    color: @primary;
+}
+
+#battery.warning {
+    color: @secondary;
+}
+
+#battery.critical:not(.charging) {
+    color: @error;
+}
+
+#bluetooth.disabled,
+#bluetooth.off {
+    color: alpha(@on_surface_variant, 0.5);
+}
+
+#network.disconnected {
+    color: @error;
+}
+
+#pulseaudio.muted {
+    color: alpha(@on_surface_variant, 0.5);
+}

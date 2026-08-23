@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+# rice-notif — mako notification controls
+set -u
+if modes=$(makoctl mode 2>/dev/null) && grep -q dnd <<<"$modes"; then dnd=1; else dnd=0; fi
+[ "$dnd" = 1 ] && st="DND: on" || st="DND: off"
+sel=$(printf 'toggle DND (%s)\nclear all\nrestore last\n' "$st" \
+    | fuzzel --dmenu --prompt='notifications: ' 2>/dev/null)
+case "$sel" in
+    toggle*) if [ "$dnd" = 1 ]; then makoctl mode -d dnd; else makoctl mode -a dnd; fi ;;
+    clear*)  makoctl dismiss-all ;;
+    restore*) makoctl restore ;;
+esac

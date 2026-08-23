@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+# rice-screenoff — power off monitors now
+exec niri msg action power-off-monitors

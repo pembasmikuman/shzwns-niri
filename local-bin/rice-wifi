@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+# rice-wifi — toggle wifi radio
+set -u
+st=$(nmcli radio wifi)
+if [ "$st" = "enabled" ]; then
+    nmcli radio wifi off && notify-send -a rice -i network-wireless-disconnected "WiFi" "disabled"
+else
+    nmcli radio wifi on && notify-send -a rice -i network-wireless "WiFi" "enabled"
+fi
