@@ -18,7 +18,8 @@ window#waybar {
 }
 
 /* The actual "Island" pill */
-.modules-center {
+.modules-center,
+.modules-right {
     background: @surface_variant;
     color: @on_surface;
     border: 1px solid @outline;

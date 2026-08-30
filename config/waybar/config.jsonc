@@ -14,8 +14,11 @@
 
     "modules-left": [],
     "modules-center": [
+        "niri/workspaces"
+    ],
+    "modules-right": [
         "clock",
-        "niri/workspaces",
+        "tray",
         "custom/updates",
         "bluetooth",
         "pulseaudio",
@@ -25,11 +28,15 @@
         "custom/wall",
         "custom/power"
     ],
-    "modules-right": [],
 
     "niri/workspaces": {
-        "format": "{name}",
+        "format": "{index}",
         "on-click": "activate"
+    },
+
+    "tray": {
+        "icon-size": 16,
+        "spacing": 8
     },
 
     "clock": {
@@ -83,11 +90,12 @@
             "warning": 30,
             "critical": 15
         },
-        "format": "{icon}",
-        "format-charging": "󰂄",
-        "format-plugged": "󰂄",
+        "format": "{icon} {capacity}%",
+        "format-charging": "󰂄 {capacity}%",
+        "format-plugged": "󰂄 {capacity}%",
         "format-icons": ["󰂎", "󰁺", "󰁻", "󰁼", "󰁽", "󰁾", "󰁿", "󰂀", "󰂁", "󰂂", "󰁹"],
-        "tooltip-format": "{capacity}%"
+        "tooltip-format": "{capacity}%\nclick to cycle power profile",
+        "on-click": "~/.config/waybar/scripts/power-profile-cycle.sh"
     },
 
     "custom/updates": {
