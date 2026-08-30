@@ -14,9 +14,9 @@ cat > "$CSS" <<EOF
 * { background-image: none; box-shadow: none; }
 window { background-color: rgba(${R}, ${G}, ${B}, 0.88); }
 button {
-    color: #${TEXT};
-    background-color: #${SURFACE};
-    border: 2px solid #${BORDER};
+    color: ${TEXT};
+    background-color: ${SURFACE};
+    border: 2px solid ${BORDER};
     border-radius: 16px;
     margin: 14px;
     background-repeat: no-repeat;
@@ -24,8 +24,8 @@ button {
     background-size: 22%;
 }
 button:focus, button:active, button:hover {
-    background-color: #${SURFACE2};
-    border-color: #${ACCENT};
+    background-color: ${SURFACE2};
+    border-color: ${ACCENT};
     outline-style: none;
 }
 #lock       { background-image: url("${ICONS}/lock.png"); }
@@ -37,10 +37,4 @@ button:focus, button:active, button:hover {
 EOF
 
 exec wlogout -C "$CSS" -b 6 \
-    -l "$HOME/.config/niri-rice/wlogout-layout.json" \
-    --command-lock 'rice-lock' \
-    --command-logout 'niri msg action quit' \
-    --command-suspend 'systemctl suspend' \
-    --command-hibernate 'systemctl hibernate' \
-    --command-shutdown 'systemctl poweroff' \
-    --command-reboot 'systemctl reboot'
+    -l "$HOME/.config/niri-rice/wlogout-layout.json"

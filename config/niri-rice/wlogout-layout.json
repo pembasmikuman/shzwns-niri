@@ -1,16 +1,36 @@
 {
-    "label": {
-        "lock": "Lock",
-        "logout": "Logout",
-        "suspend": "Suspend",
-        "hibernate": "Hibernate",
-        "shutdown": "Shutdown",
-        "reboot": "Reboot"
-    },
-    "lock": { "text": "Lock", "keybind": "l" },
-    "logout": { "text": "Logout", "keybind": "e" },
-    "suspend": { "text": "Suspend", "keybind": "u" },
-    "hibernate": { "text": "Hibernate", "keybind": "h" },
-    "shutdown": { "text": "Shutdown", "keybind": "s" },
-    "reboot": { "text": "Reboot", "keybind": "r" }
+    "label" : "lock",
+    "action" : "rice-lock",
+    "text" : "Lock",
+    "keybind" : "l"
+}
+{
+    "label" : "logout",
+    "action" : "niri msg action quit",
+    "text" : "Logout",
+    "keybind" : "e"
+}
+{
+    "label" : "suspend",
+    "action" : "systemctl suspend",
+    "text" : "Suspend",
+    "keybind" : "u"
+}
+{
+    "label" : "hibernate",
+    "action" : "systemctl hibernate",
+    "text" : "Hibernate",
+    "keybind" : "h"
+}
+{
+    "label" : "shutdown",
+    "action" : "systemctl poweroff",
+    "text" : "Shutdown",
+    "keybind" : "s"
+}
+{
+    "label" : "reboot",
+    "action" : "systemctl reboot",
+    "text" : "Reboot",
+    "keybind" : "r"
 }
