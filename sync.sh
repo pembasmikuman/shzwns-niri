@@ -12,11 +12,9 @@ rsync -a --delete ~/.config/waybar/scripts/  "$DOT/config/waybar/scripts/"
 rsync -a --delete ~/.config/waybar/themes/   "$DOT/config/waybar/themes/"
 cp ~/.config/fuzzel/fuzzel.ini          "$DOT/config/fuzzel/"        2>/dev/null || true
 cp ~/.config/mako/config                "$DOT/config/mako/"          2>/dev/null || true
-cp ~/.config/alacritty/alacritty.toml   "$DOT/config/alacritty/"
-cp ~/.config/alacritty/rice-theme.toml  "$DOT/config/alacritty/"     2>/dev/null || true
+cp ~/.config/kitty/rice-theme.conf      "$DOT/config/kitty/"         2>/dev/null || true
 rsync -a --delete ~/.config/matugen/templates/ "$DOT/config/matugen/templates/"
 cp ~/.config/matugen/config.toml        "$DOT/config/matugen/"
-cp ~/.config/environment.d/*.conf       "$DOT/config/environment.d/"
 cp ~/.config/gtk-3.0/gtk.css            "$DOT/config/gtk-3.0/"       2>/dev/null || true
 cp ~/.config/gtk-4.0/gtk.css            "$DOT/config/gtk-4.0/"       2>/dev/null || true
 rsync -a --delete ~/.config/niri-rice/  "$DOT/config/niri-rice/"     2>/dev/null || true

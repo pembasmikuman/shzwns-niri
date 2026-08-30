@@ -17,9 +17,10 @@ input_path = '~/.config/matugen/templates/mako.conf'
 output_path = '~/.config/mako/config'
 post_hook = 'makoctl reload'
 
-[templates.alacritty]
-input_path = '~/.config/matugen/templates/alacritty.toml'
-output_path = '~/.config/alacritty/rice-theme.toml'
+[templates.kitty]
+input_path = '~/.config/matugen/templates/kitty.conf'
+output_path = '~/.config/kitty/rice-theme.conf'
+post_hook = 'pkill -SIGUSR1 kitty 2>/dev/null || true'
 
 [templates.niri]
 input_path = '~/.config/matugen/templates/niri-colors.kdl'

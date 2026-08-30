@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# rice-theme-switch — apply one of 5 palettes across waybar/fuzzel/mako/alacritty/niri
+# rice-theme-switch — apply one of 5 palettes across waybar/fuzzel/mako/kitty/niri
 set -u
 RICE="$HOME/.config/niri-rice"
 STATE_DIR="$HOME/.local/state/rice"

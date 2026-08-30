@@ -40,7 +40,7 @@
 
 ## 🚀 Highlights
 
-- 🎨 **Dynamic Theming**: Powered by **Matugen** — changing the wallpaper retints waybar, fuzzel, mako, alacritty, GTK apps and niri borders instantly.
+- 🎨 **Dynamic Theming**: Powered by **Matugen** — changing the wallpaper retints waybar, fuzzel, mako, kitty, GTK apps and niri borders instantly.
 - 🏝️ **Dynamic Island Waybar**: A single floating pill bar (+14 more layouts bundled: pill, island, mac, retro…), fully ported to niri.
 - 🛠️ **Theme-Aware Menus**: Fuzzel-powered wifi manager, bluetooth manager, power menu and a macOS-style control center.
 - 📦 **Organized Wallpapers**: `rice-classify-wallpapers` sorts your collection into color pools (gruvbox / nord / tokyo…) without moving a single file.
@@ -62,7 +62,7 @@
 
 ### 🆕 Prerequisites
 - **Compositor**: `niri` session enabled
-- **Core tools**: `waybar swaybg swayidle mako fuzzel matugen cliphist wl-clipboard alacritty brightnessctl playerctl pamixer wlogout swaylock`
+- **Core tools**: `waybar swaybg swayidle mako fuzzel matugen cliphist wl-clipboard kitty brightnessctl playerctl pamixer wlogout swaylock`
 
 ### 🚀 Quick Install
 ```bash
@@ -87,7 +87,7 @@ Wallpapers are never moved or deleted — themed folders are symlink pools only.
 
 | Keybind | Action |
 | :--- | :--- |
-| `SUPER + Return` / `SUPER + T` | Terminal (Alacritty) |
+| `SUPER + Return` / `SUPER + T` | Terminal (kitty) |
 | `SUPER + Space` | App Launcher (Fuzzel) |
 | `ALT + Space` | Run Command |
 | `SUPER + Q` | Kill Active Window |
@@ -112,7 +112,7 @@ Full list in [`config/niri/config.kdl`](config/niri/config.kdl).
 | **Launcher / Menus** | `Fuzzel` |
 | **Notifications** | `Mako` |
 | **Wallpaper** | `swaybg` |
-| **Terminal** | `Alacritty` |
+| **Terminal** | `kitty` |
 | **Idle / Lock** | `swayidle` / `swaylock` |
 
 ---

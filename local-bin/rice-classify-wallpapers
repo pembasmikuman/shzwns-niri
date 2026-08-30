@@ -11,7 +11,7 @@ from pathlib import Path
 
 from PIL import Image
 
-SRC = Path.home() / "Pictures" / "_wallpapers"
+SRC = Path.home() / "Pictures" / "Wallpapers"
 OUT = SRC / "by-theme"
 SKIP_DIRS = {"by-theme"}
 EXTS = {".jpg", ".jpeg", ".png", ".webp", ".bmp", ".gif"}

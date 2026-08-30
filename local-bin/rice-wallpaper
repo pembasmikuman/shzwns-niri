@@ -1,19 +1,15 @@
 #!/usr/bin/env bash
-# rice-wallpaper — set wallpaper from the active theme's curated folder
+# rice-wallpaper — set wallpaper from the wallpaper folder
 # usage: rice-wallpaper [random|next|pick|boot]
 set -u
-WPDIR_BASE="$HOME/Pictures/_wallpapers/by-theme"
+dir="$HOME/Pictures/Wallpapers"
 STATE_DIR="$HOME/.local/state/rice"
 mkdir -p "$STATE_DIR"
 
-theme="$(cat "$STATE_DIR/theme" 2>/dev/null || echo gruvbox)"
-dir="$WPDIR_BASE/$theme"
-[ -d "$dir" ] || dir="$WPDIR_BASE/gruvbox"
+mapfile -t walls < <(find "$dir" -maxdepth 1 \( -type l -o -type f \) | sort)
+[ ${#walls[@]} -eq 0 ] && { notify-send -u critical "rice" "no wallpapers in $dir"; exit 1; }
 
-mapfile -t walls < <(find "$dir" -type l -o -type f | sort)
-[ ${#walls[@]} -eq 0 ] && { notify-send -u critical "rice" "no wallpapers for $theme"; exit 1; }
-
-idx_file="$STATE_DIR/wp-$theme"
+idx_file="$STATE_DIR/wp-idx"
 last=$(cat "$idx_file" 2>/dev/null || echo -1)
 
 pick_next() {
@@ -38,6 +34,6 @@ sleep 0.1
 setsid nohup swaybg -m fill -i "$f" >/dev/null 2>&1 < /dev/null &
 echo "$f" > "$STATE_DIR/wall"
 
-# wallpaper-driven palette: retint every app (waybar, fuzzel, mako, alacritty,
+# wallpaper-driven palette: retint every app (waybar, fuzzel, mako, kitty,
 # niri borders, gtk) via matugen templates + hooks
 matugen image "$f" --mode dark -t scheme-tonal-spot --prefer lightness >/dev/null 2>&1 || true
