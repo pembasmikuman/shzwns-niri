@@ -4,9 +4,11 @@
 set -u
 dir="$HOME/Pictures/Wallpapers"
 STATE_DIR="$HOME/.local/state/rice"
-mkdir -p "$STATE_DIR"
+THUMB_DIR="$STATE_DIR/thumbs"
+mkdir -p "$STATE_DIR" "$THUMB_DIR"
 
-mapfile -t walls < <(find "$dir" -maxdepth 1 \( -type l -o -type f \) | sort)
+# .webp files are pre-made thumbnails, not wallpapers — excluded from the pool
+mapfile -t walls < <(find "$dir" -maxdepth 1 \( -type l -o -type f \) ! -iname '*.webp' | sort)
 [ ${#walls[@]} -eq 0 ] && { notify-send -u critical "rice" "no wallpapers in $dir"; exit 1; }
 
 idx_file="$STATE_DIR/wp-idx"
@@ -18,12 +20,36 @@ pick_next() {
     echo "$n"
 }
 
+# cache a small png thumbnail for a wallpaper, preferring its matching .webp
+# (fuzzel has no webp decoder) and falling back to the full-res source
+thumb_for() {
+    local src="$1" base thumb webp
+    base="${src##*/}"; base="${base%.*}"
+    thumb="$THUMB_DIR/$base.png"
+    webp="$dir/$base.webp"
+    if [ ! -f "$thumb" ] || { [ -f "$webp" ] && [ "$webp" -nt "$thumb" ]; }; then
+        magick "${webp:-$src}[0]" -resize 160x160 "$thumb" >/dev/null 2>&1 \
+            || magick "${src}[0]" -resize 160x160 "$thumb" >/dev/null 2>&1
+    fi
+    [ -f "$thumb" ] && echo "$thumb"
+}
+
 case "${1:-random}" in
     next)  n=$(( (last + 1) % ${#walls[@]} )); echo $n > "$idx_file"; f="${walls[$n]}" ;;
     pick)
-        sel=$(printf '%s\n' "${walls[@]##*/}" | fuzzel --dmenu --prompt='wallpaper: ' 2>/dev/null)
+        sel=$(
+            for w in "${walls[@]}"; do
+                thumb=$(thumb_for "$w")
+                if [ -n "$thumb" ]; then
+                    printf '%s\x00icon\x1f%s\n' "${w##*/}" "$thumb"
+                else
+                    printf '%s\n' "${w##*/}"
+                fi
+            done | fuzzel --dmenu --line-height=48 --prompt='wallpaper: ' 2>/dev/null
+        )
         [ -z "$sel" ] && exit 0
         f="$dir/$sel"
+        [ -f "$f" ] || exit 0
         for i in "${!walls[@]}"; do [ "${walls[$i]##*/}" = "$sel" ] && echo "$i" > "$idx_file"; done
         ;;
     *)     n=$(pick_next); echo "$n" > "$idx_file"; f="${walls[$n]}" ;;
