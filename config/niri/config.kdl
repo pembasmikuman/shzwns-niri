@@ -188,6 +188,7 @@ recent-windows {
 }
 
 // ---------- autostart (light stack, replaces DMS) ----------
+spawn-at-startup "xwayland-satellite"
 spawn-at-startup "waybar" "-c" "/home/shzwn/.config/waybar/config.jsonc" "-s" "/home/shzwn/.config/waybar/style.css"
 spawn-at-startup "mako"
 spawn-at-startup "swayidle" "-w" "timeout" "300" "niri msg action power-off-monitors"
